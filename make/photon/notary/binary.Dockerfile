@@ -1,4 +1,4 @@
-FROM golang:1.14.15
+FROM golang:bullseye
 
 ARG NOTARY_VERSION
 ARG MIGRATE_VERSION
