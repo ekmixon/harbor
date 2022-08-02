@@ -9,9 +9,9 @@ from library.system import System
 
 class TestProjects(unittest.TestCase):
     @suppress_urllib3_warning
-    def setUp(cls):
-        cls.repo = Repository()
-        cls.system = System()
+    def setUp(self):
+        self.repo = Repository()
+        self.system = System()
 
     @unittest.skipIf(TEARDOWN == False, "Test data won't be erased.")
     def tearDown(self):
@@ -61,7 +61,12 @@ class TestProjects(unittest.TestCase):
 
                 #8. Delete repository(RA) by user(UA);
                 self.repo.delete_repository(project_name, "goharbor%2Falpine", **ADMIN_CLIENT)
-                self.repo.delete_repository(project_name, "goharbor%2Falpine"+image_alias_name, **ADMIN_CLIENT)
+                self.repo.delete_repository(
+                    project_name,
+                    f"goharbor%2Falpine{image_alias_name}",
+                    **ADMIN_CLIENT,
+                )
+
 
                 #9. Quota should be 0
                 quota = self.system.get_project_quota("project", project_id, **ADMIN_CLIENT)

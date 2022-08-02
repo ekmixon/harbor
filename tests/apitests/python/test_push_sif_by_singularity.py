@@ -59,14 +59,20 @@ class TestProjects(unittest.TestCase):
 
         #4. Get repository from Harbor successfully, and verfiy repository name is repo pushed by singularity CLI;
         repo_data = self.repo.get_repository(TestProjects.project_name, self.repo_name, **TestProjects.USER_CLIENT)
-        self.assertEqual(repo_data.name, TestProjects.project_name + "/" + self.repo_name)
+        self.assertEqual(
+            repo_data.name, f"{TestProjects.project_name}/{self.repo_name}"
+        )
+
 
         #5. Get and verify artifacts by tag;
         artifact = self.artifact.get_reference_info(TestProjects.project_name, self.repo_name, self.tag, **TestProjects.USER_CLIENT)
         self.assertEqual(artifact.tags[0].name, self.tag)
 
         #6. Pull sif file from harbor by singularity;
-        library.singularity.singularity_pull(TestProjects.project_name + ".sif", "oras://"+harbor_server + "/" + TestProjects.project_name + "/" + self.repo_name+":"+ self.tag)
+        library.singularity.singularity_pull(
+            f"{TestProjects.project_name}.sif",
+            f"oras://{harbor_server}/{TestProjects.project_name}/{self.repo_name}:{self.tag}",
+        )
 
 if __name__ == '__main__':
     unittest.main()

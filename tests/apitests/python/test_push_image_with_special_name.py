@@ -73,7 +73,7 @@ class TestProjects(unittest.TestCase):
         TestProjects.repo_name, tag = push_image_to_project(TestProjects.project_sign_image_name, harbor_server, user_sign_image_name, user_001_password, image, src_tag, profix_for_image=profix)
 
         #7. Get signature of image with tag(TA), it should be exist.
-        full_name = urllib.parse.quote(profix+"/"+image,'utf-8')
+        full_name = urllib.parse.quote(f"{profix}/{image}", 'utf-8')
 
         artifact = self.artifact.get_reference_info(TestProjects.project_sign_image_name, full_name, tag, **TestProjects.USER_sign_image_CLIENT)
         self.assertEqual(artifact.type, 'IMAGE')
